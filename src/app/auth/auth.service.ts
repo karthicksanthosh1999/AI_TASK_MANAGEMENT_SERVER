@@ -42,7 +42,7 @@ export class AuthService{
         const user = await this.userRepository.findByEmail(email);
         if(!user) throw new ApiError("User Not Found", 400);
         
-        const otp = Math.floor(1000000 + Math.random() * 900000);
+        const otp = Math.floor(100000 + Math.random() * 900000);
 
         const otpHash = await bcrypt.hash(String(otp), 10);
 
