@@ -9,6 +9,7 @@ import authRoute from "./app/auth/auth.route";
 import cookieParser from "cookie-parser";
 import projectRouter from "./app/project/project.router";
 import taskRouter from "./app/task/task.router";
+import AIRouter from "./app/ai/ai.routes";
 
 export class App {
   public readonly app = express();
@@ -43,6 +44,7 @@ export class App {
     this.app.use("/api/auth", authRoute);
     this.app.use("/api/project", projectRouter);
     this.app.use("/api/task", taskRouter);
+    this.app.use("/api/ai", AIRouter)
   
   }
 
