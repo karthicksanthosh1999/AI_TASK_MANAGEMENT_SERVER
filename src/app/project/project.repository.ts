@@ -96,5 +96,5 @@ export class ProjectRepository{
             projectName: true,
         } });
         return project;
-    }
+    };
 }

@@ -57,6 +57,7 @@ export class TaskController {
         if(!task) throw new ApiError("Task is not found", 401)
         res.json(new APIResponse("Task Deleted Successfully", 200, task));
     };
+
     public update = async(req: Request, res: Response): Promise<void> => {
         const data = req.body;
 
@@ -65,5 +66,15 @@ export class TaskController {
         
         if(!task) throw new ApiError("Task is not found", 401)
         res.json(new APIResponse("Task Deleted Successfully", 200, task));
+    };
+
+    public updateTaskStatus = async(req: Request, res: Response): Promise<void> => {
+        const {id} = req.body;
+
+        if(!id) throw new ApiError("Id is required", 400);
+
+        const task = await this.taskService.updateTaskStatus(id);
+
+        res.json(new APIResponse("Task Updated Successfully", 200, task))
     };
 }

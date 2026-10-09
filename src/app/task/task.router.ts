@@ -10,6 +10,7 @@ taskRouter.get("/", AuthMiddleware.authenticate, taskController.findAll);
 taskRouter.get("/:id", AuthMiddleware.authenticate, taskController.findById);
 taskRouter.get("/allTasks", AuthMiddleware.authenticate, taskController.findById);
 taskRouter.put("/", AuthMiddleware.authenticate, taskController.update);
+taskRouter.put("/update-task-status", AuthMiddleware.authenticate, taskController.updateTaskStatus);
 taskRouter.delete("/:id", AuthMiddleware.authenticate, taskController.delete);
 
 export default taskRouter;

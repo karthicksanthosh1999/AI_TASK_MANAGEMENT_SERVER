@@ -55,5 +55,10 @@ export class TaskService {
     public async update(id: string, data: UpdateTask): Promise<TaskDto> {
         const task = await this.taskRepository.update(id, data);
         return task;
+    };
+
+    public async updateTaskStatus(id:string): Promise<TaskDto> {
+        const task = await this.taskRepository.updateTaskStatus(id);
+        return task;
     }
 }

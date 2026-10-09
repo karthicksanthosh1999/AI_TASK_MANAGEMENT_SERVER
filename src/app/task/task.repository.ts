@@ -1,4 +1,3 @@
-import { ta } from "zod/v4/locales/index.js";
 import { prisma } from "../../db/prisma";
 import { TaskStatus, TaskPriority } from "../../generated/prisma/client";
 import { TaskWhereInput } from "../../generated/prisma/models";
@@ -130,5 +129,19 @@ export class TaskRepository {
     public async update(id: string, data: UpdateTask): Promise<TaskDto> {
         const task = await prisma.task.update({ where: { id }, data, include: { project: true, user: true } });
         return task;
-    }
+    };
+
+    public async updateTaskStatus(taskId: string): Promise<TaskDto> {
+        const task = await prisma.task.update({ 
+            where: {
+                id: taskId
+            },
+            data: {
+                status: "COMPLETED"
+            },
+             include: { project: true, user: true }
+        });
+        return task;
+    };
+
 }

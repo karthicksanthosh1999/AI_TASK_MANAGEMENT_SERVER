@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 
 interface IJwtAccessToken {
     id: string;
@@ -12,10 +12,16 @@ interface IJwtRefreshToken {
 
 export class JWTService{
     static generateAccessToken(payload: IJwtAccessToken):string {
-        return jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m" });
+        const option:SignOptions = {
+            expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN || "30m") as SignOptions["expiresIn"]
+        } 
+        return jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, option);
     };
     static generateRefreshToken(payload: IJwtRefreshToken): string {
-        return jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d"} );
+            const option:SignOptions = { 
+                expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN || "7d") as SignOptions["expiresIn"] 
+            }
+        return jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, option );
     };
     static verifyAccessToken(token: string): IJwtAccessToken {
         return jwt.verify(token, process.env.JWT_ACCESS_SECRET!) as IJwtAccessToken;
