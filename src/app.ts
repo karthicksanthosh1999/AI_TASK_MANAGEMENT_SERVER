@@ -22,7 +22,7 @@ export class App {
 
   private initializeMiddlewares() {
     this.app.use(cors({
-      origin: "http://192.168.2.48:3000",
+      origin: ["http://192.168.2.48:3000","http://localhost:3000"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,

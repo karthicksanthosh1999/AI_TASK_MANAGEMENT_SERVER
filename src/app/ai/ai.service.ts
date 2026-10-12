@@ -2,7 +2,6 @@ import { createAgent } from "langchain";
 import { groqModel } from "../../providers/groq.provider";
 import { getMyTasksTool } from "./ai_tools/getMyTasks.tool";
 import { taskPriorityPrompt } from "./ai_prompts/taskPriotiy.prompt";
-import { TaskPrioritySchema } from "./ai_schema/task-priority-schema";
 
 export class AIService {
 
