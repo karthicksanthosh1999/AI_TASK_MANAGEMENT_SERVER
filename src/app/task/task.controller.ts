@@ -77,4 +77,9 @@ export class TaskController {
 
         res.json(new APIResponse("Task Updated Successfully", 200, task))
     };
+
+    public getTaskStatusStatistics = async( req: Request, res: Response): Promise<void> => {
+        const data = await this.taskService.getTaskStatusStatistics();
+        res.json( new APIResponse("Data fetch successfully", 200, data))
+    };
 }

@@ -1,5 +1,6 @@
 import { TaskStatus, TaskPriority } from "../../generated/prisma/client";
 import { TaskDto } from "./dto/task.dto";
+import { TaskStatusCountType } from "./dto/task.interface";
 import { CreateTask, UpdateTask } from "./dto/task.schema";
 import { TaskRepository } from "./task.repository";
 
@@ -60,5 +61,10 @@ export class TaskService {
     public async updateTaskStatus(id:string): Promise<TaskDto> {
         const task = await this.taskRepository.updateTaskStatus(id);
         return task;
-    }
+    };
+
+    public async getTaskStatusStatistics(): Promise<TaskStatusCountType> {
+        const rows = await this.taskRepository.taskStatusCount()
+        return rows;
+    };
 }

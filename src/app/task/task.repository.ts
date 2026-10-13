@@ -1,7 +1,9 @@
+import { ta } from "zod/v4/locales/index.js";
 import { prisma } from "../../db/prisma";
 import { TaskStatus, TaskPriority } from "../../generated/prisma/client";
 import { TaskWhereInput } from "../../generated/prisma/models";
 import { TaskDto } from "./dto/task.dto";
+import { TaskStatusCountType } from "./dto/task.interface";
 import { CreateTask, UpdateTask } from "./dto/task.schema";
 
 export class TaskRepository {
@@ -144,4 +146,36 @@ export class TaskRepository {
         return task;
     };
 
+    public async taskStatusCount(): Promise<TaskStatusCountType> {
+        const tasks = await prisma.task.groupBy({
+            by:['status'],
+            _count: {
+                _all: true
+            }
+        });
+        
+        const statusTypes: TaskStatusCountType  = {
+            ALL:0,
+            PLANNED: 0,
+            IN_PROGRESS: 0,
+            COMPLETED: 0,
+        };
+
+        tasks.forEach((task) => {
+            const count = task._count._all;
+            statusTypes.ALL += count;
+            switch(task.status){
+                case "COMPLETED":
+                    statusTypes.COMPLETED = count;
+                    break;
+                case "IN_PROGRESS":
+                    statusTypes.IN_PROGRESS = count;
+                    break;
+                case "PLANNED":
+                    statusTypes.PLANNED = count;
+                    break;
+            }
+        }); 
+        return statusTypes;
+    };
 }
