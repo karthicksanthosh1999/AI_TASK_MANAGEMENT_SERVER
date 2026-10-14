@@ -13,5 +13,7 @@ taskRouter.put("/", AuthMiddleware.authenticate, taskController.update);
 taskRouter.put("/update-task-status", AuthMiddleware.authenticate, taskController.updateTaskStatus);
 taskRouter.delete("/:id", AuthMiddleware.authenticate, taskController.delete);
 taskRouter.get("/pie-chart/status-count", AuthMiddleware.authenticate, taskController.getTaskStatusStatistics);
+taskRouter.post("/due-data/status", AuthMiddleware.authenticate, taskController.taskStatusByStatus);
+
 
 export default taskRouter;

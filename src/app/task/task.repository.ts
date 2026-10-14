@@ -3,7 +3,7 @@ import { prisma } from "../../db/prisma";
 import { TaskStatus, TaskPriority } from "../../generated/prisma/client";
 import { TaskWhereInput } from "../../generated/prisma/models";
 import { TaskDto } from "./dto/task.dto";
-import { TaskStatusCountType } from "./dto/task.interface";
+import { TaskStatusCountType, TaskType } from "./dto/task.interface";
 import { CreateTask, UpdateTask } from "./dto/task.schema";
 
 export class TaskRepository {
@@ -12,7 +12,7 @@ export class TaskRepository {
         return task;
     };
 
-    public async getAllTasks (): Promise<TaskDto[]> {
+    public async getAllTasks(): Promise<TaskDto[]> {
         const tasks = await prisma.task.findMany({ include: { project: true, user: true } });
         return tasks;
     };
@@ -177,5 +177,17 @@ export class TaskRepository {
             }
         }); 
         return statusTypes;
+    };
+
+    public async tasksByStatus(status: TaskStatus): Promise<TaskType[]> {
+        const tasks = await prisma.task.findMany(
+            {
+                where: {
+                    status: status,
+                },
+            }
+        );
+
+        return tasks;
     };
 }

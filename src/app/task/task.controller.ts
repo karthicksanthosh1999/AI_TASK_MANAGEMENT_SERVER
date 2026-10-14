@@ -82,4 +82,10 @@ export class TaskController {
         const data = await this.taskService.getTaskStatusStatistics();
         res.json( new APIResponse("Data fetch successfully", 200, data))
     };
+
+    public taskStatusByStatus = async( req: Request, res: Response): Promise<void> => {
+        const { status } = req.body;
+        const data = await this.taskService.taskStatusByStatus(status);
+        res.json( new APIResponse("Data fetch successfully", 200, data))
+    };
 }
