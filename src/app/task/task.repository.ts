@@ -1,14 +1,18 @@
-import { ta } from "zod/v4/locales/index.js";
 import { prisma } from "../../db/prisma";
 import { TaskStatus, TaskPriority } from "../../generated/prisma/client";
 import { TaskWhereInput } from "../../generated/prisma/models";
 import { TaskDto } from "./dto/task.dto";
 import { TaskStatusCountType, TaskType } from "./dto/task.interface";
 import { CreateTask, UpdateTask } from "./dto/task.schema";
-
+import { NotificationService } from "../notifications/notification.service";
 export class TaskRepository {
+    public constructor(
+        private readonly notificationService = new NotificationService()
+    ){};
+
     public async create(data: CreateTask): Promise<TaskDto>{
         const task = await prisma.task.create({data, include: { project: true, user: true }});
+        this.notificationService.createTaskAssignedNotification(task.userId, task.id)
         return task;
     };
 

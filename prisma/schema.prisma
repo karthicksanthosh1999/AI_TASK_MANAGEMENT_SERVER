@@ -22,6 +22,8 @@ model User {
   tasks Task[]
   passwordResetOtp PasswordResetOtp[]
 
+  notifications Notification[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -57,6 +59,8 @@ model Task {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  notifications Notification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -75,6 +79,22 @@ model PasswordResetOtp {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  taskId String
+  message String
+  isRead Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
 }
 
 enum UserRole {
